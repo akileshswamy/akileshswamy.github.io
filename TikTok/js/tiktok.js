@@ -1,11 +1,11 @@
 //TikTok's Magic Algorithm
-function algorithm(numlikes, comment) {
+function algorithm(likes, comment) {
     let rank = 0;
 
     //magic!
-    if (numlikes >= 10000 && comment.includes("basketball")) {
+    if (likes >= 10000 && comment.includes("basketball")) {
         rank = 1;
-    } else if (numlikes >= 500 && comment.includes("football")) {
+    } else if (likes >= 500 && comment.includes("football")) {
         rank = 100;
     } else {
         rank = 1000
