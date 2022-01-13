@@ -12,7 +12,7 @@ function algorithm(likes, comment, views, shares) {
     }
     return rank;
 }
-
+/*
 function popup() {
     alert("Welcome to TikTok! Imagine I'm showing you a tiktok video right now");
     let likeCount = Number(prompt("How many likes did this Tiktok video get?"));
@@ -25,6 +25,7 @@ function popup() {
 
     alert(resultString);
 }
+*/
 
 
 
