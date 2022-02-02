@@ -41,31 +41,72 @@ function refreshUI() {
 
     let adParagraph = document.getElementById("ad-paragraph")
     adParagraph.innerHTML = ad;
+
+    let petIMG = document.getElementById("pet-img");
+    let petParagraph = document.getElementById("pet-condition");
+
+    let sum = ad + king + russ
+
+    if (sum === 30) {
+        alert("Game Over! Lebron has reached peak happiness!")
+    } else if (sum < 30 && sum >= 24) {
+        petIMG.src = "images/LebronHyped.jpg"
+        petParagraph.innerHTML = "LeBron is Hyped"
+    } else if (sum < 24 && sum >= 18) {
+        petIMG.src = "images/LebronHappy.jpg"
+        petParagraph.innerHTML = "LeBron is Happy"
+    } else if (sum < 18 && sum >= 12) {
+        petIMG.src = "images/LebronSatisfied.jpg"
+        petParagraph.innerHTML = "LeBron is Satisfied"
+    } else if (sum < 12 && sum >= 6) {
+        petIMG.src = "images/LebronDissapointed.jpg"
+        petParagraph.innerHTML = "LeBron is Dissapointed"
+    } else if (sum < 6 && sum >= 1) {
+        petIMG.src("images/LebronAngry.jpg")
+        petParagraph.innerHTML = "LeBron is Angry"
+    } else {
+        alert("Game Over! LeBron hates you because you failed his team!")
+    }
 }
 
 
-
+/*
 function decreaseRuss() {
-    if (russ > -1) {
+    if (russ > 0) {
         russ = russ - 1
     }
     refreshUI();
 }
 
 function decreaseKing() {
-    if (king > -1) {
+    if (king > 0) {
         king = king - 1
     }
     refreshUI();
 }
 
 function decreaseAd() {
-    if (ad > -1) {
+    if (ad > 0) {
         ad = ad - 1
     }
     refreshUI();
 }
-
+*/
+function decreaseValue() {
+    if (king > 0) {
+        king = king - 1
+    }
+    if (ad > 0) {
+        ad = ad - 1
+    }
+    if (russ > 0) {
+        russ = russ - 1
+    }
+    refreshUI;
+}
+/*
 setInterval(decreaseRuss, 950)
 setInterval(decreaseKing, 950)
 setInterval(decreaseAd, 950)
+*/
+setInterval(decreaseValue, 950)
