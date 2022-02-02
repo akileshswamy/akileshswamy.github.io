@@ -1,6 +1,7 @@
 let russ = 5;
 let king = 5;
 let ad = 5;
+let bench = 5;
 
 function russFunction() {
     if (russ < 10) {
@@ -19,6 +20,13 @@ function kingFunction() {
 function adFunction() {
     if (ad < 10) {
         ad += 1
+    }
+    refreshUI();
+}
+
+function benchFunction() {
+    if (bench < 10) {
+        bench += 1
     }
     refreshUI();
 }
@@ -42,26 +50,32 @@ function refreshUI() {
     let adParagraph = document.getElementById("ad-paragraph")
     adParagraph.innerHTML = ad;
 
+    let benchMeter = document.getElementById("bench-meter");
+    benchMeter.value = bench;
+
+    let benchParagraph = document.getElementById("bench-paragraph")
+    benchParagraph.innerHTML = bench;
+
     let petIMG = document.getElementById("pet-img");
     let petParagraph = document.getElementById("pet-condition");
 
-    let sum = ad + king + russ
+    let sum = ad + king + russ + bench
 
-    if (sum === 30) {
+    if (sum === 40) {
         alert("Game Over! Lebron has reached peak happiness!")
-    } else if (sum < 30 && sum >= 24) {
+    } else if (sum < 40 && sum >= 32) {
         petIMG.src = "images/LebronHyped.jpg"
         petParagraph.innerHTML = "LeBron is Hyped"
-    } else if (sum < 24 && sum >= 18) {
+    } else if (sum < 32 && sum >= 24) {
         petIMG.src = "images/LebronHappy.jpg"
         petParagraph.innerHTML = "LeBron is Happy"
-    } else if (sum < 18 && sum >= 12) {
+    } else if (sum < 24 && sum >= 16) {
         petIMG.src = "images/LebronSatisfied.jpg"
         petParagraph.innerHTML = "LeBron is Satisfied"
-    } else if (sum < 12 && sum >= 6) {
+    } else if (sum < 16 && sum >= 8) {
         petIMG.src = "images/LebronDissapointed.jpg"
         petParagraph.innerHTML = "LeBron is Dissapointed"
-    } else if (sum < 6 && sum >= 1) {
+    } else if (sum < 8 && sum >= 1) {
         petIMG.src("images/LebronAngry.jpg")
         petParagraph.innerHTML = "LeBron is Angry"
     } else {
@@ -101,6 +115,9 @@ function decreaseValue() {
     }
     if (russ > 0) {
         russ = russ - 1
+    }
+    if (bench > 0) {
+        bench = bench - 1
     }
     refreshUI;
 }
