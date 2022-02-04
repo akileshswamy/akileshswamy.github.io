@@ -12,7 +12,7 @@ for (let t = 1; t < 11; t = t + 2) {
 }
 
 // get canvas element
-let myCanvas = document.getElementById("soren");
+let myCanvas = document.getElementById("bullseye");
 // create canvas object
 let ctx = myCanvas.getContext("2d");
 
@@ -33,7 +33,7 @@ ctx.stroke()
 
 for (let aki = 25; aki > 0; aki = aki - 5) {
     ctx.beginPath();
-    ctx.arc(100, 50, aki, 0, 2 * Math.PI);
+    s
     ctx.strokeStyle = "Blue";
     ctx.stroke();
 }
