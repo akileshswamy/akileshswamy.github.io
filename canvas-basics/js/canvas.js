@@ -31,8 +31,6 @@ ctx.moveTo(200, 0);
 ctx.lineTo(0, 100);
 ctx.stroke()
 
-s
-
 for (let x = 25; x > 0; x = x - 5) {
     ctx.beginPath();
     ctx.arc(100, 50, x, 0, 2 * Math.PI);
