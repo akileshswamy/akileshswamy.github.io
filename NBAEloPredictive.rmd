@@ -1,0 +1,105 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(ggplot2)
+library(dplyr, warn.conflicts = FALSE)
+library(tidyr)
+library(readr)
+library(purrr)
+library(tibble)
+library(stringr)
+library(forcats)
+library(rvest,warn.conflicts = FALSE)
+library(ggthemes)
+library(gifski)
+library(directlabels,warn.conflicts = FALSE)
+library(gganimate)
+library(EloRating,warn.conflicts = FALSE)
+```
+
+```{r}
+allnba <- read.csv(file.choose())
+```
+
+```{r}
+view(allnba)
+```
+
+```{r}
+#EloRating Calculations
+```
+
+```{r}
+seqcheck(winner = allnba$Winner, loser = allnba$Loser, Date = allnba$Date)
+```
+
+```{r}
+eloratingnba <- elo.seq(winner = allnba$Winner, loser = allnba$Loser, Date = allnba$Date, runcheck = TRUE)
+summary(eloratingnba)
+```
+
+```{r}
+extract_elo(eloratingnba)
+```
+
+```{r}
+round(winprob(1036,936)*100,2)
+```
+
+
+```{r}
+#Predictive Modeling
+```
+
+```{r}
+head(allnba)
+```
+
+```{r}
+allnba$pdha = allnba$HomePTS - allnba$AwayPTS
+```
+
+```{r}
+data.frame(avgawaypts = mean(allnba$AwayPTS),
+           avghomepts = mean(allnba$HomePTS))
+```
+
+```{r}
+hist(allnba$pdha, bins = 20, xlab = "Home - Away Point Differential", main = "Histogram of Point Differential in the NBA (21-22)", xlim = c(-60,60))
+```
+
+```{r}
+barplot(allnba$pdha, bins = 20, xlab = "Home - Away Point Differential", main = "Bargraph of Point Differential in the NBA (21-22)")
+```
+
+```{r}
+poisson_model <- 
+rbind(
+  data.frame(pts=allnba$HomePTS,
+             team=allnba$Home,
+             opponent=allnba$Away,
+             home=1),
+  data.frame(pts=allnba$AwayPTS,
+             team=allnba$Away,
+             opponent=allnba$Home,
+             home=0)) %>%
+glm(pts ~ home + team + opponent, family=poisson(link=log),data=.)
+summary(poisson_model)
+```
+
+```{r}
+#Away Team
+predict(poisson_model, 
+        data.frame(home=0, team="Sacramento Kings", 
+                   opponent="Los Angeles Lakers"), type="response")
+#Home Team
+predict(poisson_model, 
+        data.frame(home=1, team="Los Angeles Lakers", 
+                   opponent="Sacramento Kings"), type="response")
+```
+
+
+
