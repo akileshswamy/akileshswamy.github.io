@@ -5,6 +5,134 @@ let xPosition = 0;
 let yPosition = 0;
 let xDirection = 2;
 
+//get pargraphs items
+let keyDownOutput = document.getElementById("keydown-output");
+let keyUpOutput = document.getElementById("keyup-output");
+
+//player position and movement
+let playerX = 250;
+let playerY = 250;
+let playerXDir = 0;
+let playerYDir = 0;
+let playerSpeed = 2;
+
+//ball position and movement
+let ballX = 100;
+let ballY = 60;
+let ballXDir = 2;
+let ballYDir = 2;
+const BALL_RADIUS = 10;
+const PADDLE_WIDTH = 100;
+const PADDLE_HEIGHT = 20;
+
+function drawPlayer() {
+    ctx.fillRect(playerX, playerY, PADDLE_WIDTH, PADDLE_HEIGHT)
+}
+
+function movePlayer() {
+    playerX += (playerSpeed * playerXDir);
+
+    //edge check
+    if (playerX < 0) {
+        playerX = 0;
+    } else if (playerX > 500 - PADDLE_WIDTH) {
+        playerX = 400;
+    }
+
+
+    playerY += (playerSpeed * playerYDir);
+    //edge check
+    if (playerY < 0) {
+        playerY = 0;
+    } else if (playerY > 500 - PADDLE_HEIGHT) {
+        playerY = 480;
+    }
+}
+
+function drawBall() {
+    ctx.beginPath();
+    ctx.arc(ballX, ballY, BALL_RADIUS, 0, 2 * Math.PI);
+    ctx.fillStyle = "green";
+    ctx.fill();
+}
+
+function moveBall() {
+    ballX += ballXDir;
+    ballY += ballYDir;
+}
+
+
+function checkBallCollision() {
+    //check vertical wall
+    if ((ballY > 500 - BALL_RADIUS) || (ballY < 0 + BALL_RADIUS)) {
+        ballYDir = ballYDir * -1;
+        ballYDir = ballYDir * 1.5;
+    }
+    if ((ballX > 500 - BALL_RADIUS) || (ballX < 0 + BALL_RADIUS)) {
+        ballXDir = ballXDir * -1;
+        ballXDir = ballXDir * 1.1;
+    }
+
+    //check paddle collision 
+    if (ballX + BALL_RADIUS >= playerX &&
+        ballX - BALL_RADIUS <= playerX + PADDLE_WIDTH &&
+        ballY + BALL_RADIUS >= playerY &&
+        ballY - BALL_RADIUS <= playerY + PADDLE_HEIGHT) {
+        ballYDir = ballYDir * -1
+        ballYDir = ballYDir * 0.9
+    }
+}
+
+function refreshUI() {
+    ctx.clearRect(0, 0, 500, 500);
+    movePlayer();
+    drawPlayer();
+    //animate ball
+    checkBallCollision();
+    moveBall();
+    drawBall();
+}
+
+//when key is pressed
+function keyPressed(event) {
+    // get the actual key pressed
+    let key = event.keyCode;
+    keyDownOutput.innerHTML = "Key Down code: " + key;
+
+    // move player
+    if (key === 37) {
+        playerXDir = -1;
+    }
+    if (key === 39) {
+        playerXDir = 1;
+    }
+    if (key === 38) {
+        playerYDir = -1;
+    }
+    if (key === 40) {
+        playerYDir = 1;
+    }
+}
+//when key is released
+function keyReleased(event) {
+    // get the actual key pressed
+    let key = event.keyCode;
+    keyUpOutput.innerHTML = "Key Up code: " + key;
+    // move player
+    if (key === 37) {
+        playerXDir = 0;
+    }
+    if (key === 39) {
+        playerXDir = 0;
+    }
+    if (key === 38) {
+        playerYDir = 0;
+    }
+    if (key === 40) {
+        playerYDir = 0;
+    }
+}
+
 /*
 function moveHorizontal() {
     // clear screen
@@ -39,7 +167,7 @@ function moveVertical() {
 setInterval(moveVertical, 10)
 */
 
-
+/*
 function bounceHorizontal() {
     ctx.clearRect(0, 0, 500, 500)
     ctx.fillRect(xPosition, 0, 20, 20);
@@ -51,3 +179,6 @@ function bounceHorizontal() {
 }
 
 setInterval(bounceHorizontal, 10)
+*/
+
+setInterval(refreshUI, 30);
