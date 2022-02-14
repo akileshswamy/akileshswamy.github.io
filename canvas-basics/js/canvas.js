@@ -33,7 +33,6 @@ ctx.stroke()
 
 for (let aki = 25; aki > 0; aki = aki - 5) {
     ctx.beginPath();
-    s
     ctx.strokeStyle = "Blue";
     ctx.stroke();
 }
