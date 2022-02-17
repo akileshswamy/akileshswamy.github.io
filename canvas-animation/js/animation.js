@@ -3,24 +3,24 @@ let ctx = myCanvas.getContext("2d");
 
 let xPosition = 0;
 let yPosition = 0;
-let xDirection = 2;
+let xDirection = 5;
 
 //get pargraphs items
 let keyDownOutput = document.getElementById("keydown-output");
 let keyUpOutput = document.getElementById("keyup-output");
 
 //player position and movement
-let playerX = 250;
-let playerY = 250;
+let playerX = 200;
+let playerY = 350;
 let playerXDir = 0;
 let playerYDir = 0;
-let playerSpeed = 2;
+let playerSpeed = 5;
 
 //ball position and movement
 let ballX = 100;
 let ballY = 60;
-let ballXDir = 2;
-let ballYDir = 2;
+let ballXDir = 4;
+let ballYDir = 4;
 const BALL_RADIUS = 10;
 const PADDLE_WIDTH = 100;
 const PADDLE_HEIGHT = 20;
@@ -28,6 +28,15 @@ const PADDLE_HEIGHT = 20;
 function drawPlayer() {
     ctx.fillRect(playerX, playerY, PADDLE_WIDTH, PADDLE_HEIGHT)
 }
+
+function drawBlock() {
+    ctx.fillRect(75, 25, PADDLE_WIDTH, PADDLE_HEIGHT)
+}
+
+function drawBlock2() {
+    ctx.fillRect(75, 150, PADDLE_WIDTH, PADDLE_HEIGHT)
+}
+
 
 function movePlayer() {
     playerX += (playerSpeed * playerXDir);
@@ -39,14 +48,6 @@ function movePlayer() {
         playerX = 400;
     }
 
-
-    playerY += (playerSpeed * playerYDir);
-    //edge check
-    if (playerY < 0) {
-        playerY = 0;
-    } else if (playerY > 500 - PADDLE_HEIGHT) {
-        playerY = 480;
-    }
 }
 
 function drawBall() {
@@ -62,15 +63,14 @@ function moveBall() {
 }
 
 
+
 function checkBallCollision() {
     //check vertical wall
     if ((ballY > 500 - BALL_RADIUS) || (ballY < 0 + BALL_RADIUS)) {
         ballYDir = ballYDir * -1;
-        ballYDir = ballYDir * 1.5;
     }
     if ((ballX > 500 - BALL_RADIUS) || (ballX < 0 + BALL_RADIUS)) {
         ballXDir = ballXDir * -1;
-        ballXDir = ballXDir * 1.1;
     }
 
     //check paddle collision 
@@ -79,7 +79,6 @@ function checkBallCollision() {
         ballY + BALL_RADIUS >= playerY &&
         ballY - BALL_RADIUS <= playerY + PADDLE_HEIGHT) {
         ballYDir = ballYDir * -1
-        ballYDir = ballYDir * 0.9
     }
 }
 
@@ -91,6 +90,8 @@ function refreshUI() {
     checkBallCollision();
     moveBall();
     drawBall();
+    drawBlock();
+    drawBlock2();
 }
 
 //when key is pressed
