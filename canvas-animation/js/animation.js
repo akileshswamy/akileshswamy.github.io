@@ -11,31 +11,112 @@ let keyUpOutput = document.getElementById("keyup-output");
 
 //player position and movement
 let playerX = 200;
-let playerY = 350;
+let playerY = 450;
 let playerXDir = 0;
 let playerYDir = 0;
-let playerSpeed = 5;
+let playerSpeed = 10;
 
 //ball position and movement
-let ballX = 100;
-let ballY = 60;
+let ballX = 175;
+let ballY = 350;
 let ballXDir = 4;
 let ballYDir = 4;
 const BALL_RADIUS = 10;
 const PADDLE_WIDTH = 100;
-const PADDLE_HEIGHT = 20;
+const PADDLE_HEIGHT = 10;
 
 function drawPlayer() {
     ctx.fillRect(playerX, playerY, PADDLE_WIDTH, PADDLE_HEIGHT)
 }
 
+/*
 function drawBlock() {
     ctx.fillRect(75, 25, PADDLE_WIDTH, PADDLE_HEIGHT)
 }
 
+
 function drawBlock2() {
     ctx.fillRect(75, 150, PADDLE_WIDTH, PADDLE_HEIGHT)
 }
+*/
+//blocks variables
+/*
+let blocks = [];
+let blockRow = 3;
+let blockColumn = 4;
+let blockWidth = 112.5;
+let blockHeight = 25;
+let blockWidthDiff = 25;
+let blockHeightDiff = 25;
+
+function drawBlocks() {
+    for (let column = 0; column < blockColumn; column++) {
+        blocks[column] = [];
+        for (let row = 0; row < blockRow; row++) {
+            //spacing between blocks
+            let xBlock = (column * blockWidth) + blockWidthDiff;
+            let yBlock = (row * blockHeight) + blockHeightDiff;
+            blocks[column][row] = xBlock;
+            blocks[column][row] = yBlock;
+            ctx.beginPath();
+            ctx.rect(xBlock, yBlock, blockWidth, blockHeight);
+            ctx.fillStyle = "#0095DD";
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
+}
+*/
+
+let blockRow = 6;
+let blockColumn = 5;
+let blockWidth = 75;
+let blockHeight = 20;
+let blockPadding = 10;
+let blockOffsetTop = 30;
+let blockOffsetLeft = 40;
+
+let blocks = [];
+for (let column = 0; column < blockColumn; column++) {
+    blocks[column] = [];
+    for (let row = 0; row < blockRow; row++) {
+        blocks[column][row] = { x: 0, y: 0, status: 1 };
+    }
+}
+
+function drawblocks() {
+    for (let column = 0; column < blockColumn; column++) {
+        for (let row = 0; row < blockRow; row++) {
+            if (blocks[column][row].status == 1) {
+                let blockX = (column * (blockWidth + blockPadding)) + blockOffsetLeft;
+                let blockY = (row * (blockHeight + blockPadding)) + blockOffsetTop;
+                blocks[column][row].x = blockX;
+                blocks[column][row].y = blockY;
+                ctx.beginPath();
+                ctx.rect(blockX, blockY, blockWidth, blockHeight);
+                ctx.fillStyle = "green";
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+    }
+
+}
+
+function blockBreaking() {
+    for (let column = 0; column < blockColumn; column++) {
+        for (let row = 0; row < blockRow; row++) {
+            let block = blocks[column][row];
+            if (block.status == 1) {
+                if (ballX > block.x && ballX < block.x + blockWidth && ballY > block.y && ballY < block.y + blockHeight) {
+                    ballYDir = -ballYDir * 1.01;
+                    block.status = 0;
+                }
+            }
+        }
+    }
+}
+
 
 
 function movePlayer() {
@@ -67,10 +148,10 @@ function moveBall() {
 function checkBallCollision() {
     //check vertical wall
     if ((ballY > 500 - BALL_RADIUS) || (ballY < 0 + BALL_RADIUS)) {
-        ballYDir = ballYDir * -1;
+        ballYDir = ballYDir * -1.05;
     }
     if ((ballX > 500 - BALL_RADIUS) || (ballX < 0 + BALL_RADIUS)) {
-        ballXDir = ballXDir * -1;
+        ballXDir = ballXDir * -1.05;
     }
 
     //check paddle collision 
@@ -90,8 +171,10 @@ function refreshUI() {
     checkBallCollision();
     moveBall();
     drawBall();
-    drawBlock();
-    drawBlock2();
+    // drawBlock();
+    // drawBlock2();
+    drawblocks();
+    blockBreaking();
 }
 
 //when key is pressed
@@ -182,4 +265,4 @@ function bounceHorizontal() {
 setInterval(bounceHorizontal, 10)
 */
 
-setInterval(refreshUI, 30);
+setInterval(refreshUI, 30)
