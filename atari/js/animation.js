@@ -4,6 +4,8 @@ let ctx = myCanvas.getContext("2d");
 let xPosition = 0;
 let yPosition = 0;
 let xDirection = 5;
+let score = 0;
+let lives = 3;
 
 //get pargraphs items
 let keyDownOutput = document.getElementById("keydown-output");
@@ -14,13 +16,13 @@ let playerX = 200;
 let playerY = 450;
 let playerXDir = 0;
 let playerYDir = 0;
-let playerSpeed = 10;
+let playerSpeed = 15;
 
 //ball position and movement
 let ballX = 175;
 let ballY = 350;
-let ballXDir = 4;
-let ballYDir = 4;
+let ballXDir = 6;
+let ballYDir = 6;
 const BALL_RADIUS = 10;
 const PADDLE_WIDTH = 100;
 const PADDLE_HEIGHT = 10;
@@ -68,7 +70,7 @@ function drawBlocks() {
 }
 */
 
-let blockRow = 6;
+let blockRow = 8;
 let blockColumn = 5;
 let blockWidth = 75;
 let blockHeight = 20;
@@ -109,8 +111,13 @@ function blockBreaking() {
             let block = blocks[column][row];
             if (block.status == 1) {
                 if (ballX > block.x && ballX < block.x + blockWidth && ballY > block.y && ballY < block.y + blockHeight) {
-                    ballYDir = -ballYDir * 1.01;
+                    ballYDir = -ballYDir * 1.001;
                     block.status = 0;
+                    score++;
+                    if (score == 40) {
+                        alert("Game Over. You reached the high score! Press OK to play again!");
+                        location.reload();
+                    }
                 }
             }
         }
@@ -143,15 +150,28 @@ function moveBall() {
     ballY += ballYDir;
 }
 
-
-
+//ballY > 500 - BALL_RADIUS
+//ballY < 0 + BALL_RADIUS
 function checkBallCollision() {
     //check vertical wall
-    if ((ballY > 500 - BALL_RADIUS) || (ballY < 0 + BALL_RADIUS)) {
+    if (ballY < 0 + BALL_RADIUS) {
         ballYDir = ballYDir * -1.05;
     }
     if ((ballX > 500 - BALL_RADIUS) || (ballX < 0 + BALL_RADIUS)) {
         ballXDir = ballXDir * -1.05;
+    }
+    if (ballY > 500 - BALL_RADIUS) {
+        lives--;
+        ballX = 250;
+        ballY = 300;
+        ballXDir = 5;
+        ballYDir = 5;
+        if (lives == 0) {
+            alert("Game Over. Your score was " + score + "! Press OK to play again!");
+            location.reload();
+        }
+
+
     }
 
     //check paddle collision 
@@ -175,6 +195,8 @@ function refreshUI() {
     // drawBlock2();
     drawblocks();
     blockBreaking();
+    theScore();
+    theLives();
 }
 
 //when key is pressed
@@ -248,6 +270,7 @@ function moveVertical() {
     }
 }
 
+
 setInterval(moveVertical, 10)
 */
 
@@ -264,5 +287,16 @@ function bounceHorizontal() {
 
 setInterval(bounceHorizontal, 10)
 */
+
+function theScore() {
+    ctx.font = "16px Arial";
+    ctx.fillText("Score: " + score, 8, 20);
+}
+
+function theLives() {
+    ctx.font = "16px Arial";
+    ctx.fillText("Lives: " + lives, 435, 20);
+}
+
 
 setInterval(refreshUI, 30)
